@@ -1,8 +1,10 @@
-# SAMR Publicity Unified Downloader
+# SAMR Merger Control Database
+
+Structured dataset of China's Anti-Monopoly Merger Control public notices, with unified download tooling.
 
 统一下载器，合并了三套来源逻辑（v1/v2/v3），并保持同一套输出目录、命名与增量清单机制。
 
-- 脚本：`/Users/nv7d/samr_publicity_downloader_unified.py`
+- 主脚本：`/Users/nv7d/samr_publicity_downloader_unified.py`
 - 可选修复脚本（去掉历史 `NOCASE_` 前缀）：`/Users/nv7d/samr_publicity_fix_nocase_prefix.py`
 
 ## 1. 环境要求
