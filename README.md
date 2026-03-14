@@ -4,38 +4,48 @@ Structured dataset of China's Anti-Monopoly Merger Control public notices, with 
 
 统一下载器，合并了三套来源逻辑（v1/v2/v3），并保持同一套输出目录、命名与增量清单机制。
 
-- 主脚本：`/Users/nv7d/Downloads/samr_publicity/samr_publicity_downloader_unified.py`
-- 可选修复脚本（去掉历史 `NOCASE_` 前缀）：`/Users/nv7d/Downloads/samr_publicity/samr_publicity_fix_nocase_prefix.py`
+- 主脚本：`samr_publicity_downloader_unified.py`
+- 可选修复脚本（去掉历史 `NOCASE_` 前缀）：`samr_publicity_fix_nocase_prefix.py`
 
 ## 0. 快速开始（推荐）
 
 ### 推荐执行方式（避免路径错误）
 
 ```bash
-cd /Users/nv7d/Downloads/samr_publicity
-/Users/nv7d/miniconda3/bin/python ./samr_publicity_downloader_unified.py --help
+cd samr_publicity
+python samr_publicity_downloader_unified.py --help
 ```
 
 ### 每日/每周增量更新（只下载新文件）
 
 ```bash
-/Users/nv7d/miniconda3/bin/python /Users/nv7d/Downloads/samr_publicity/samr_publicity_downloader_unified.py --source v1 --out-dir ~/Downloads/samr_publicity --max-pages 0
-/Users/nv7d/miniconda3/bin/python /Users/nv7d/Downloads/samr_publicity/samr_publicity_downloader_unified.py --source v2 --out-dir ~/Downloads/samr_publicity --start-page 136 --end-page 0 --cutoff-date 2022-08-31
-/Users/nv7d/miniconda3/bin/python /Users/nv7d/Downloads/samr_publicity/samr_publicity_downloader_unified.py --source v3 --out-dir ~/Downloads/samr_publicity --start-page 1 --end-page 0 --cutoff-date 2022-08-31
+python samr_publicity_downloader_unified.py --source v1 --out-dir ./ --max-pages 0
+python samr_publicity_downloader_unified.py --source v2 --out-dir ./ --start-page 136 --end-page 0 --cutoff-date 2022-08-31
+python samr_publicity_downloader_unified.py --source v3 --out-dir ./ --start-page 1 --end-page 0 --cutoff-date 2022-08-31
 ```
 
 ### 先预览不下载（建议首次先跑）
 
 ```bash
-/Users/nv7d/miniconda3/bin/python /Users/nv7d/Downloads/samr_publicity/samr_publicity_downloader_unified.py --source v1 --out-dir ~/Downloads/samr_publicity --max-pages 0 --dry-run
+python samr_publicity_downloader_unified.py --source v1 --out-dir ./ --max-pages 0 --dry-run
 ```
 
 ## 1. 环境要求
 
-推荐使用你当前可用的 Python：
+Python 3.9+。
+
+macOS/Linux：
 
 ```bash
-/Users/nv7d/miniconda3/bin/python --version
+python3 --version
+```
+
+Windows（CMD/PowerShell）：
+
+```bash
+python --version
+# or
+py --version
 ```
 
 ## 2. 输出结构
@@ -50,7 +60,7 @@ cd /Users/nv7d/Downloads/samr_publicity
 ## 3. 统一脚本参数
 
 ```bash
-/Users/nv7d/miniconda3/bin/python /Users/nv7d/Downloads/samr_publicity/samr_publicity_downloader_unified.py --help
+python samr_publicity_downloader_unified.py --help
 ```
 
 核心参数：
@@ -75,18 +85,18 @@ v2/v3 专属：
 ### v1（`jyzjz.samr.gov.cn`）
 
 ```bash
-/Users/nv7d/miniconda3/bin/python /Users/nv7d/Downloads/samr_publicity/samr_publicity_downloader_unified.py \
+python samr_publicity_downloader_unified.py \
   --source v1 \
-  --out-dir ~/Downloads/samr_publicity \
+  --out-dir ./ \
   --max-pages 0
 ```
 
 ### v2（`www.samr.gov.cn`，第136页起）
 
 ```bash
-/Users/nv7d/miniconda3/bin/python /Users/nv7d/Downloads/samr_publicity/samr_publicity_downloader_unified.py \
+python samr_publicity_downloader_unified.py \
   --source v2 \
-  --out-dir ~/Downloads/samr_publicity \
+  --out-dir ./ \
   --start-page 136 \
   --end-page 0 \
   --cutoff-date 2022-08-31
@@ -95,12 +105,18 @@ v2/v3 专属：
 ### v3（`fldj.mofcom.gov.cn`，更早数据）
 
 ```bash
-/Users/nv7d/miniconda3/bin/python /Users/nv7d/Downloads/samr_publicity/samr_publicity_downloader_unified.py \
+python samr_publicity_downloader_unified.py \
   --source v3 \
-  --out-dir ~/Downloads/samr_publicity \
+  --out-dir ./ \
   --start-page 1 \
   --end-page 0 \
   --cutoff-date 2022-08-31
+```
+
+Windows 示例：
+
+```powershell
+py .\\samr_publicity_downloader_unified.py --source v1 --out-dir .\\ --max-pages 0
 ```
 
 ## 5. 首次全量建议顺序
@@ -139,7 +155,7 @@ v2/v3 专属：
 快速查看：
 
 ```bash
-cat ~/Downloads/samr_publicity/run_report.json
+cat run_report.json
 ```
 
 ## 9. 历史文件名修复（可选）
@@ -148,10 +164,10 @@ cat ~/Downloads/samr_publicity/run_report.json
 
 ```bash
 # 先预览
-/Users/nv7d/miniconda3/bin/python /Users/nv7d/Downloads/samr_publicity/samr_publicity_fix_nocase_prefix.py --out-dir ~/Downloads/samr_publicity --dry-run
+python samr_publicity_fix_nocase_prefix.py --out-dir ./ --dry-run
 
 # 正式修复
-/Users/nv7d/miniconda3/bin/python /Users/nv7d/Downloads/samr_publicity/samr_publicity_fix_nocase_prefix.py --out-dir ~/Downloads/samr_publicity
+python samr_publicity_fix_nocase_prefix.py --out-dir ./
 ```
 
 修复会同步更新：
@@ -165,9 +181,9 @@ cat ~/Downloads/samr_publicity/run_report.json
 如果本地已初始化仓库并设置远程，更新后执行：
 
 ```bash
-git -C ~/Downloads/samr_publicity add .
-git -C ~/Downloads/samr_publicity commit -m "Update dataset"
-git -C ~/Downloads/samr_publicity push
+git add .
+git commit -m "Update dataset"
+git push
 ```
 
 ## 11. 说明
