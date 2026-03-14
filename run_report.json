@@ -1,0 +1,131 @@
+{
+  "started_at": "2026-03-08T21:20:21",
+  "source": "mofcom-fldj-jyaj",
+  "list_root": "https://fldj.mofcom.gov.cn/article/jyzjzjyajgs/",
+  "dry_run": false,
+  "start_page": 1,
+  "end_page_arg": 0,
+  "cutoff_date": "2022-08-31",
+  "timeout": 20.0,
+  "retry": 3,
+  "sleep_ms": 100,
+  "existing_manifest_records": 3932,
+  "api_total_count_snapshot": 750,
+  "api_total_pages_snapshot": 50,
+  "scanned_list_items": 750,
+  "filtered_by_date": 0,
+  "detail_fetch_failed": 0,
+  "attachment_candidates": 756,
+  "already_downloaded": 0,
+  "recovered_missing_file": 0,
+  "download_success": 742,
+  "would_download": 0,
+  "download_failed": 0,
+  "skipped_non_doc": 14,
+  "skipped_no_attachment": 0,
+  "errors": [],
+  "skips": [
+    {
+      "type": "non_doc_ext",
+      "page_no": 2,
+      "detail_url": "https://fldj.mofcom.gov.cn/article/jyzjzjyajgs/201902/20190202833119.shtml",
+      "attachment_url": "http://images.mofcom.gov.cn/fldj/201902/20190202165940603.pdf",
+      "detected_ext": ".pdf"
+    },
+    {
+      "type": "non_doc_ext",
+      "page_no": 20,
+      "detail_url": "https://fldj.mofcom.gov.cn/article/jyzjzjyajgs/201806/20180602752959.shtml",
+      "attachment_url": "http://images.mofcom.gov.cn/fldj/201806/20180606173155528.pdf",
+      "detected_ext": ".pdf"
+    },
+    {
+      "type": "non_doc_ext",
+      "page_no": 21,
+      "detail_url": "https://fldj.mofcom.gov.cn/article/jyzjzjyajgs/201805/20180502745012.shtml",
+      "attachment_url": "http://images.mofcom.gov.cn/fldj/201805/20180517144258496.pdf",
+      "detected_ext": ".pdf"
+    },
+    {
+      "type": "non_doc_ext",
+      "page_no": 36,
+      "detail_url": "https://fldj.mofcom.gov.cn/article/jyzjzjyajgs/201708/20170802626805.shtml",
+      "attachment_url": "http://images.mofcom.gov.cn/fldj/201708/20170815152153387.pdf",
+      "detected_ext": ".pdf"
+    },
+    {
+      "type": "non_doc_ext",
+      "page_no": 39,
+      "detail_url": "https://fldj.mofcom.gov.cn/article/jyzjzjyajgs/201706/20170602599789.shtml",
+      "attachment_url": "http://images.mofcom.gov.cn/fldj/201706/20170626162910877.pdf",
+      "detected_ext": ".pdf"
+    },
+    {
+      "type": "non_doc_ext",
+      "page_no": 40,
+      "detail_url": "https://fldj.mofcom.gov.cn/article/jyzjzjyajgs/201706/20170602593686.shtml",
+      "attachment_url": "http://images.mofcom.gov.cn/fldj/201706/20170615162145724.pdf",
+      "detected_ext": ".pdf"
+    },
+    {
+      "type": "non_doc_ext",
+      "page_no": 41,
+      "detail_url": "https://fldj.mofcom.gov.cn/article/jyzjzjyajgs/201705/20170502584177.shtml",
+      "attachment_url": "http://images.mofcom.gov.cn/fldj/201705/20170531172519298.pdf",
+      "detected_ext": ".pdf"
+    },
+    {
+      "type": "non_doc_ext",
+      "page_no": 42,
+      "detail_url": "https://fldj.mofcom.gov.cn/article/jyzjzjyajgs/201704/20170402563221.shtml",
+      "attachment_url": "http://images.mofcom.gov.cn/fldj/201704/20170424162039612.pdf",
+      "detected_ext": ".pdf"
+    },
+    {
+      "type": "non_doc_ext",
+      "page_no": 43,
+      "detail_url": "https://fldj.mofcom.gov.cn/article/jyzjzjyajgs/201704/20170402545311.shtml",
+      "attachment_url": "http://images.mofcom.gov.cn/fldj/201704/20170401150901637.pdf",
+      "detected_ext": ".pdf"
+    },
+    {
+      "type": "non_doc_ext",
+      "page_no": 44,
+      "detail_url": "https://fldj.mofcom.gov.cn/article/jyzjzjyajgs/201703/20170302538711.shtml",
+      "attachment_url": "http://images.mofcom.gov.cn/fldj/201703/20170322143524688.pdf",
+      "detected_ext": ".pdf"
+    },
+    {
+      "type": "non_doc_ext",
+      "page_no": 46,
+      "detail_url": "https://fldj.mofcom.gov.cn/article/jyzjzjyajgs/201701/20170102505230.shtml",
+      "attachment_url": "http://images.mofcom.gov.cn/fldj/201701/20170120142158300.pdf",
+      "detected_ext": ".pdf"
+    },
+    {
+      "type": "non_doc_ext",
+      "page_no": 48,
+      "detail_url": "https://fldj.mofcom.gov.cn/article/jyzjzjyajgs/201612/20161202223610.shtml",
+      "attachment_url": "http://images.mofcom.gov.cn/fldj/201612/20161216111454347.pdf",
+      "detected_ext": ".pdf"
+    },
+    {
+      "type": "non_doc_ext",
+      "page_no": 48,
+      "detail_url": "https://fldj.mofcom.gov.cn/article/jyzjzjyajgs/201612/20161202066771.shtml",
+      "attachment_url": "http://images.mofcom.gov.cn/fldj/201612/20161205173515481.pdf",
+      "detected_ext": ".pdf"
+    },
+    {
+      "type": "non_doc_ext",
+      "page_no": 49,
+      "detail_url": "https://fldj.mofcom.gov.cn/article/jyzjzjyajgs/201611/20161101809735.shtml",
+      "attachment_url": "http://images.mofcom.gov.cn/fldj/201611/20161118141819684.pdf",
+      "detected_ext": ".pdf"
+    }
+  ],
+  "ended_at": "2026-03-08T21:36:18",
+  "manifest_total_records": 4674,
+  "manifest_jsonl": "/Users/nv7d/Downloads/samr_publicity/manifest.jsonl",
+  "manifest_csv": "/Users/nv7d/Downloads/samr_publicity/manifest.csv"
+}
