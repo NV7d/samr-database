@@ -5,7 +5,7 @@ Structured dataset of China's Anti-Monopoly Merger Control public notices, with 
 统一下载器，合并了三套来源逻辑（v1/v2/v3），并保持同一套输出目录、命名与增量清单机制。
 
 - 主脚本：`samr_publicity_downloader_unified.py`
-- 可选修复脚本（去掉历史 `NOCASE_` 前缀）：`samr_publicity_fix_nocase_prefix.py`
+- 可选修复脚本（去掉历史 `NOCASE_` 前缀）：`tools/legacy/samr_publicity_fix_nocase_prefix.py`
 
 ## 0. 快速开始（推荐）
 
@@ -164,10 +164,10 @@ cat run_report.json
 
 ```bash
 # 先预览
-python samr_publicity_fix_nocase_prefix.py --out-dir ./ --dry-run
+python tools/legacy/samr_publicity_fix_nocase_prefix.py --out-dir ./ --dry-run
 
 # 正式修复
-python samr_publicity_fix_nocase_prefix.py --out-dir ./
+python tools/legacy/samr_publicity_fix_nocase_prefix.py --out-dir ./
 ```
 
 修复会同步更新：
@@ -188,5 +188,5 @@ git push
 
 ## 11. 说明
 
-- 旧脚本 `samr_publicity_downloader.py / _v2.py / _v3_mofcom.py` 仍保留，便于回滚。
+- 旧脚本已移动到 `tools/legacy/`（含 v1/v2/v3 与修复脚本），根目录仅保留统一下载器与核心索引文件。
 - 统一脚本优先用于后续新任务。
