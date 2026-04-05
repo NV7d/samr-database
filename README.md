@@ -5,6 +5,7 @@ Structured dataset of China's Anti-Monopoly Merger Control public notices, with 
 统一下载器，合并了三套来源逻辑（v1/v2/v3），并保持同一套输出目录、命名与增量清单机制。
 
 - 主脚本：`samr_publicity_downloader_unified.py`
+- MOFCOM `ztxx` 独立脚本：`samr_publicity_downloader_v4_mofcom_ztxx.py`
 - 可选修复脚本（去掉历史 `NOCASE_` 前缀）：`tools/legacy/samr_publicity_fix_nocase_prefix.py`
 
 ## 0. 快速开始（推荐）
@@ -28,6 +29,13 @@ python samr_publicity_downloader_unified.py --source v3 --out-dir ./ --start-pag
 
 ```bash
 python samr_publicity_downloader_unified.py --source v1 --out-dir ./ --max-pages 0 --dry-run
+```
+
+### MOFCOM `ztxx`（正文+附件，独立目录）
+
+```bash
+python3 samr_publicity_downloader_v4_mofcom_ztxx.py --out-dir ./ --dry-run
+python3 samr_publicity_downloader_v4_mofcom_ztxx.py --out-dir ./ --start-page 1 --end-page 0
 ```
 
 ## 1. 环境要求
@@ -56,6 +64,13 @@ py --version
 - 增量清单：`manifest.jsonl`
 - 表格清单：`manifest.csv`
 - 本次运行报告：`run_report.json`
+
+MOFCOM `ztxx` 独立脚本会写入单独子目录（与简易公示表数据分开）：
+
+- `mofcom_penalty_notices/files/{YYYY}/{MM}/{article_id}_{title}/`
+- `mofcom_penalty_notices/manifest.jsonl`
+- `mofcom_penalty_notices/manifest.csv`
+- `mofcom_penalty_notices/run_report.json`
 
 ## 3. 统一脚本参数
 
