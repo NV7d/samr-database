@@ -1,0 +1,13 @@
+{
+  "started_at": "2026-04-05T18:55:43",
+  "action": "migrate_remaining_files_dir_contents",
+  "records_total": 4697,
+  "records_pointing_old_files": 2470,
+  "old_files_exists_for_record": 403,
+  "moved_records": 403,
+  "missing_old_file_records": 2067,
+  "errors": [],
+  "ended_at": "2026-04-05T18:55:44",
+  "dataset_manifest_records": 2630,
+  "old_files_remaining": 3
+}
