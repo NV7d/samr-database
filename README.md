@@ -116,6 +116,20 @@ py .\tools\downloaders\samr_publicity_downloader_v5_samr_enforcement.py --out-di
 - 清单有记录但文件缺失：自动补下并记为 `recovered_missing_file`。
 - 重复执行同一命令即可做增量更新。
 
+## Windows 长路径修复（已下载文件批量缩短）
+
+如果在 Windows 拉取/同步时报 `Filename too long`，可在仓库根目录执行：
+
+```bash
+python3 tools/shorten_paths_for_windows.py
+```
+
+该脚本会：
+
+- 批量缩短目录名和文件名；
+- 同步更新各数据集 `manifest.jsonl / manifest.csv`；
+- 清理空目录。
+
 ## v1 历史目录标准化迁移
 
 ```bash

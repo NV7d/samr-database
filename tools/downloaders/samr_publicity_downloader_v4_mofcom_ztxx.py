@@ -63,6 +63,15 @@ def safe_name(name: str) -> str:
     return value[:180] if value else "untitled"
 
 
+def short_name(name: str, max_len: int = 64) -> str:
+    value = safe_name(name)
+    if len(value) <= max_len:
+        return value
+    digest = hashlib.sha1(value.encode("utf-8")).hexdigest()[:8]
+    head = value[: max(1, max_len - 9)].rstrip("._ ")
+    return f"{head}_{digest}"
+
+
 def parse_ymd(text: str) -> Optional[datetime]:
     raw = (text or "").strip()
     if not raw:
@@ -633,7 +642,7 @@ def main() -> int:
             pub_date = parse_pub_date(detail_html)
             y, m = choose_year_month(list_date, pub_date)
             aid = article_id(detail_url)
-            article_dir = files_root / y / m / safe_name(f"{aid}_{title}")
+            article_dir = files_root / y / m / short_name(f"{aid}_{title}", max_len=64)
 
             body_html = extract_zoom_html(detail_html)
             if not body_html:
@@ -697,7 +706,7 @@ def main() -> int:
                     report["recovered_missing_file"] += 1
 
                 guess_name = guess_file_name(aurl, atext, idx)
-                final_name = safe_name(f"{aid}_{idx:03d}_{guess_name}")
+                final_name = short_name(f"{aid}_{idx:03d}_{guess_name}", max_len=72)
                 target_path = article_dir / final_name
                 if target_path.exists():
                     n = 1

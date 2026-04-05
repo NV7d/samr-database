@@ -103,6 +103,15 @@ def safe_name(name: str) -> str:
     return value[:180] if value else "untitled"
 
 
+def short_name(name: str, max_len: int = 64) -> str:
+    value = safe_name(name)
+    if len(value) <= max_len:
+        return value
+    digest = hashlib.sha1(value.encode("utf-8")).hexdigest()[:8]
+    head = value[: max(1, max_len - 9)].rstrip("._ ")
+    return f"{head}_{digest}"
+
+
 def parse_ymd(text: str) -> Optional[datetime]:
     raw = (text or "").strip()
     if not raw:
@@ -679,7 +688,7 @@ def run_category(
             pub_date = parse_pub_date(detail_html)
             y, m = choose_year_month(list_date, pub_date)
             aid = article_id(detail_url)
-            article_dir = files_root / category / y / m / safe_name(f"{aid}_{title}")
+            article_dir = files_root / category / y / m / short_name(f"{aid}_{title}", max_len=64)
 
             base_record = {
                 "source": "samr_enforcement_cases",
@@ -748,7 +757,7 @@ def run_category(
                     report["recovered_missing_file"] += 1
 
                 raw_name = file_name_from_attachment(attachment_url, attachment_text, idx)
-                final_name = safe_name(f"{category}_{aid}_{idx:03d}_{raw_name}")
+                final_name = short_name(f"{category}_{aid}_{idx:03d}_{raw_name}", max_len=72)
                 target_path = article_dir / final_name
                 if target_path.exists():
                     n = 1

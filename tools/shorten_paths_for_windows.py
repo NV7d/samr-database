@@ -1,0 +1,282 @@
+#!/usr/bin/env python3
+"""
+Shorten long file/dir names to avoid Windows path length errors.
+
+It renames existing downloaded files and updates all manifest csv/jsonl
+that contain `file_path` + `file_name`.
+"""
+
+from __future__ import annotations
+
+import csv
+import hashlib
+import json
+import re
+from pathlib import Path
+from typing import Dict, List, Tuple
+
+
+ROOT = Path(__file__).resolve().parents[1]
+
+
+def safe_name(name: str) -> str:
+    value = re.sub(r"[\\/:*?\"<>|\r\n\t]+", "_", (name or "").strip())
+    value = re.sub(r"_+", "_", value).strip("._ ")
+    return value if value else "untitled"
+
+
+def short_name(name: str, max_len: int) -> str:
+    value = safe_name(name)
+    if len(value) <= max_len:
+        return value
+    digest = hashlib.sha1(value.encode("utf-8")).hexdigest()[:8]
+    head = value[: max(1, max_len - 9)].rstrip("._ ")
+    return f"{head}_{digest}"
+
+
+def find_index_from_name(name: str, default_idx: int = 1) -> int:
+    m = re.search(r"_(\d{3})(?:_|$)", name or "")
+    if m:
+        return int(m.group(1))
+    return default_idx
+
+
+def build_target_relpath(rec: Dict[str, str], old_rel: str) -> str:
+    p = Path(old_rel)
+    ext = p.suffix.lower()
+    source = str(rec.get("source") or "")
+    rid = str(rec.get("id") or "unknown")
+    case_name = str(rec.get("caseName") or "untitled")
+    record_type = str(rec.get("record_type") or "")
+    fname = p.name
+
+    if old_rel.startswith("samr_simple_case_notices/files/"):
+        parts = p.parts
+        y, m = "unknown", "unknown"
+        for i in range(2, len(parts) - 1):
+            if re.fullmatch(r"\d{4}", parts[i]) and i + 1 < len(parts) and re.fullmatch(r"\d{2}", parts[i + 1]):
+                y, m = parts[i], parts[i + 1]
+                break
+        article_dir = short_name(f"{rid}_{case_name}", 64)
+        idx = find_index_from_name(fname, 1)
+        new_file = short_name(f"{source}_{rid}_{idx:03d}_{case_name}", 72) + ext
+        return str(Path("samr_simple_case_notices/files") / y / m / article_dir / new_file)
+
+    if old_rel.startswith("mofcom_penalty_notices/files/"):
+        parts = p.parts
+        if len(parts) < 5:
+            return old_rel
+        y, m = parts[2], parts[3]
+        article_dir = short_name(f"{rid}_{case_name}", 64)
+        if record_type == "article_body":
+            body_ext = ext if ext in (".md", ".html") else ".md"
+            new_file = f"body{body_ext}"
+        else:
+            idx = find_index_from_name(fname, 1)
+            new_file = short_name(f"{rid}_{idx:03d}_{fname}", 72)
+            if Path(new_file).suffix.lower() != ext:
+                new_file = f"{new_file}{ext}"
+        return str(Path("mofcom_penalty_notices/files") / y / m / article_dir / new_file)
+
+    if old_rel.startswith("samr_enforcement_cases/files/"):
+        parts = p.parts
+        if len(parts) < 6:
+            return old_rel
+        category, y, m = parts[2], parts[3], parts[4]
+        article_dir = short_name(f"{rid}_{case_name}", 64)
+        if record_type == "article_body":
+            body_ext = ext if ext in (".md", ".html") else ".md"
+            new_file = f"body{body_ext}"
+        else:
+            idx = find_index_from_name(fname, 1)
+            new_file = short_name(f"{category}_{rid}_{idx:03d}_{fname}", 72)
+            if Path(new_file).suffix.lower() != ext:
+                new_file = f"{new_file}{ext}"
+        return str(Path("samr_enforcement_cases/files") / category / y / m / article_dir / new_file)
+
+    return old_rel
+
+
+def unique_target(path: Path) -> Path:
+    if not path.exists():
+        return path
+    i = 1
+    while True:
+        cand = path.with_name(f"{path.stem}_{i}{path.suffix}")
+        if not cand.exists():
+            return cand
+        i += 1
+
+
+def load_jsonl(path: Path) -> List[Dict[str, str]]:
+    rows: List[Dict[str, str]] = []
+    if not path.exists():
+        return rows
+    with path.open("r", encoding="utf-8") as f:
+        for line in f:
+            t = line.strip()
+            if t:
+                rows.append(json.loads(t))
+    return rows
+
+
+def sweep_long_files(path_map: Dict[str, str]) -> int:
+    moved = 0
+    roots = [
+        ROOT / "samr_simple_case_notices/files",
+        ROOT / "mofcom_penalty_notices/files",
+        ROOT / "samr_enforcement_cases/files",
+    ]
+    for base in roots:
+        if not base.exists():
+            continue
+        for abs_path in list(base.rglob("*")):
+            if not abs_path.is_file():
+                continue
+            rel = str(abs_path.relative_to(ROOT))
+            if len(rel) <= 200:
+                continue
+
+            parts = Path(rel).parts
+            ext = abs_path.suffix.lower()
+            fname_short = short_name(Path(rel).stem, 64) + ext
+
+            if rel.startswith("samr_simple_case_notices/files/"):
+                y, m = "unknown", "unknown"
+                for i in range(2, len(parts) - 1):
+                    if re.fullmatch(r"\d{4}", parts[i]) and i + 1 < len(parts) and re.fullmatch(r"\d{2}", parts[i + 1]):
+                        y, m = parts[i], parts[i + 1]
+                        break
+                article = short_name(parts[-2], 48) if len(parts) >= 2 else "untitled"
+                target = ROOT / "samr_simple_case_notices/files" / y / m / article / fname_short
+            elif rel.startswith("mofcom_penalty_notices/files/"):
+                y = parts[2] if len(parts) > 2 else "unknown"
+                m = parts[3] if len(parts) > 3 else "unknown"
+                article = short_name(parts[-2], 48) if len(parts) >= 2 else "untitled"
+                target = ROOT / "mofcom_penalty_notices/files" / y / m / article / fname_short
+            else:
+                category = parts[2] if len(parts) > 2 else "unknown"
+                y = parts[3] if len(parts) > 3 else "unknown"
+                m = parts[4] if len(parts) > 4 else "unknown"
+                article = short_name(parts[-2], 48) if len(parts) >= 2 else "untitled"
+                target = ROOT / "samr_enforcement_cases/files" / category / y / m / article / fname_short
+
+            target.parent.mkdir(parents=True, exist_ok=True)
+            target = unique_target(target)
+            abs_path.rename(target)
+            path_map[rel] = str(target.relative_to(ROOT))
+            moved += 1
+    return moved
+
+
+def write_jsonl(path: Path, rows: List[Dict[str, str]]) -> None:
+    with path.open("w", encoding="utf-8") as f:
+        for row in rows:
+            f.write(json.dumps(row, ensure_ascii=False) + "\n")
+
+
+def update_csv(path: Path, path_map: Dict[str, str]) -> int:
+    if not path.exists():
+        return 0
+    with path.open("r", encoding="utf-8", newline="") as f:
+        reader = csv.DictReader(f)
+        rows = list(reader)
+        fields = reader.fieldnames or []
+    changed = 0
+    for row in rows:
+        old = row.get("file_path") or ""
+        new = path_map.get(old)
+        if not new:
+            continue
+        row["file_path"] = new
+        row["file_name"] = Path(new).name
+        changed += 1
+    with path.open("w", encoding="utf-8", newline="") as f:
+        writer = csv.DictWriter(f, fieldnames=fields)
+        writer.writeheader()
+        writer.writerows(rows)
+    return changed
+
+
+def cleanup_empty_dirs(root: Path) -> None:
+    for path in sorted([p for p in root.rglob("*") if p.is_dir()], key=lambda x: len(x.parts), reverse=True):
+        try:
+            path.rmdir()
+        except OSError:
+            pass
+
+
+def main() -> None:
+    jsonl_paths = [
+        ROOT / "samr_simple_case_notices/manifest.jsonl",
+        ROOT / "mofcom_penalty_notices/manifest.jsonl",
+        ROOT / "samr_enforcement_cases/manifest.jsonl",
+        ROOT / "indexes/root_catalog/manifest.jsonl",
+    ]
+
+    path_map: Dict[str, str] = {}
+    moved = 0
+    missing = 0
+
+    for jp in jsonl_paths:
+        rows = load_jsonl(jp)
+        changed_rows = 0
+        for rec in rows:
+            old_rel = str(rec.get("file_path") or "")
+            if not old_rel:
+                continue
+            if old_rel in path_map:
+                new_rel = path_map[old_rel]
+                rec["file_path"] = new_rel
+                rec["file_name"] = Path(new_rel).name
+                changed_rows += 1
+                continue
+
+            old_abs = ROOT / old_rel
+            if not old_abs.exists():
+                missing += 1
+                continue
+
+            new_rel = build_target_relpath(rec, old_rel)
+            new_abs = ROOT / new_rel
+            if new_abs == old_abs:
+                continue
+            new_abs.parent.mkdir(parents=True, exist_ok=True)
+            new_abs = unique_target(new_abs)
+            old_abs.rename(new_abs)
+
+            new_rel = str(new_abs.relative_to(ROOT))
+            path_map[old_rel] = new_rel
+            rec["file_path"] = new_rel
+            rec["file_name"] = new_abs.name
+            changed_rows += 1
+            moved += 1
+
+        write_jsonl(jp, rows)
+        print(f"[jsonl] {jp.relative_to(ROOT)} changed={changed_rows}")
+
+    swept = sweep_long_files(path_map)
+    if swept:
+        print(f"[sweep] extra_moved={swept}")
+
+    csv_paths = [
+        ROOT / "manifest.csv",
+        ROOT / "samr_simple_case_notices/manifest.csv",
+        ROOT / "mofcom_penalty_notices/manifest.csv",
+        ROOT / "samr_enforcement_cases/manifest.csv",
+    ]
+    csv_changed = 0
+    for cp in csv_paths:
+        c = update_csv(cp, path_map)
+        csv_changed += c
+        print(f"[csv] {cp.relative_to(ROOT)} changed={c}")
+
+    cleanup_empty_dirs(ROOT / "samr_simple_case_notices/files")
+    cleanup_empty_dirs(ROOT / "mofcom_penalty_notices/files")
+    cleanup_empty_dirs(ROOT / "samr_enforcement_cases/files")
+
+    print(f"[done] moved={moved + swept} csv_changed={csv_changed} missing={missing}")
+
+
+if __name__ == "__main__":
+    main()

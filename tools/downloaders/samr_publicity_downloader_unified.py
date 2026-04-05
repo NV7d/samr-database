@@ -81,6 +81,15 @@ def safe_name(name: str) -> str:
     return value[:180] if value else "untitled"
 
 
+def short_name(name: str, max_len: int = 64) -> str:
+    value = safe_name(name)
+    if len(value) <= max_len:
+        return value
+    digest = hashlib.sha1(value.encode("utf-8")).hexdigest()[:8]
+    head = value[: max(1, max_len - 9)].rstrip("._ ")
+    return f"{head}_{digest}"
+
+
 def parse_ymd(text: str) -> Optional[datetime]:
     raw = (text or "").strip()
     if not raw:
@@ -400,7 +409,7 @@ def run_v1(cfg: Config, existing: Dict[str, Dict[str, Any]], files_root: Path, r
             case_no = (rec.get("caseNo") or "").strip()
             case_name = rec.get("caseName") or "untitled"
             prefix = case_no or cid
-            name = safe_name(f"{prefix}_{case_name}") + ext
+            name = short_name(f"{prefix}_{case_name}", max_len=72) + ext
             fpath = target_dir / name
             if fpath.exists():
                 i = 1
@@ -568,7 +577,7 @@ def run_v2(cfg: Config, existing: Dict[str, Dict[str, Any]], files_root: Path, r
                 tdir.mkdir(parents=True, exist_ok=True)
                 aid = v2_article_id(detail)
                 case_name = item["case_name"] or "untitled"
-                name = safe_name(f"{aid}_{case_name}") + ext
+                name = short_name(f"{aid}_{case_name}", max_len=72) + ext
                 fpath = tdir / name
                 if fpath.exists():
                     i = 1
@@ -717,7 +726,7 @@ def run_v3(cfg: Config, existing: Dict[str, Dict[str, Any]], files_root: Path, r
                 tdir.mkdir(parents=True, exist_ok=True)
                 aid = v3_article_id(detail)
                 case_name = item["case_name"] or "untitled"
-                name = safe_name(f"{aid}_{case_name}") + ext
+                name = short_name(f"{aid}_{case_name}", max_len=72) + ext
                 fpath = tdir / name
                 if fpath.exists():
                     i = 1
