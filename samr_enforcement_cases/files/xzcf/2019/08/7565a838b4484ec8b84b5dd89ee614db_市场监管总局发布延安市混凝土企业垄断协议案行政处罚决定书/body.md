@@ -1,0 +1,13 @@
+陕西省市场监管局于2018年9月对延安市部分混凝土企业涉嫌垄断协议行为立案调查，于2019年8月9日对10家涉案当事人作出行政处罚决定，现予公告。
+附件：《陕西省市场监督管理局行政处罚决定书》（陕市监反垄断处字〔2019〕第1号至第10号）
+附件下载
+[第1号.doc](https://www.samr.gov.cn/cms_files/filemanager/1647978232/attach/20233/P020220424509668055708.doc)
+[第2号.doc](https://www.samr.gov.cn/cms_files/filemanager/1647978232/attach/20233/P020220424509668131671.doc)
+[第3号.doc](https://www.samr.gov.cn/cms_files/filemanager/1647978232/attach/20233/P020220424509668217801.doc)
+[第4号.doc](https://www.samr.gov.cn/cms_files/filemanager/1647978232/attach/20233/P020220424509668289975.doc)
+[第5号.doc](https://www.samr.gov.cn/cms_files/filemanager/1647978232/attach/20233/P020220424509668354991.doc)
+[第6号.doc](https://www.samr.gov.cn/cms_files/filemanager/1647978232/attach/20233/P020220424509668425577.doc)
+[第7号.doc](https://www.samr.gov.cn/cms_files/filemanager/1647978232/attach/20233/P020220424509668495579.doc)
+[第8号.doc](https://www.samr.gov.cn/cms_files/filemanager/1647978232/attach/20233/P020220424509668562642.doc)
+[第9号.doc](https://www.samr.gov.cn/cms_files/filemanager/1647978232/attach/20233/P020220424509668630199.doc)
+[第10号.doc](https://www.samr.gov.cn/cms_files/filemanager/1647978232/attach/20233/P020220424509668700628.doc)

@@ -1,0 +1,13 @@
+.TRS_Editor,P {font-family:宋体;}
+ .TRS_Editor,P {font-family:宋体;}
+# 
+ 2020年12月28日，四川省市场监管局依法对四川省水泥协会组织6家水泥经营者达成并实施垄断协议案当事人做出行政处罚决定，现予以公告。
+2021年3月18日
+附件下载
+[行政处罚决定书（川市监处〔2020〕24号）.docx](https://www.samr.gov.cn/cms_files/filemanager/1647978232/attach/20233/P020220424509778867723.docx)
+[行政处罚决定书（川市监处〔2020〕25号）.docx](https://www.samr.gov.cn/cms_files/filemanager/1647978232/attach/20233/P020220424509778937457.docx)
+[行政处罚决定书（川市监处〔2020〕26号）.docx](https://www.samr.gov.cn/cms_files/filemanager/1647978232/attach/20233/P020220424509779011734.docx)
+[行政处罚决定书（川市监处〔2020〕27号）.docx](https://www.samr.gov.cn/cms_files/filemanager/1647978232/attach/20233/P020220424509779072591.docx)
+[行政处罚决定书（川市监处〔2020〕28号）.docx](https://www.samr.gov.cn/cms_files/filemanager/1647978232/attach/20233/P020220424509779144822.docx)
+[行政处罚决定书（川市监处〔2020〕29号）.docx](https://www.samr.gov.cn/cms_files/filemanager/1647978232/attach/20233/P020220424509779219688.docx)
+[行政处罚决定书（川市监处〔2020〕30号）.docx](https://www.samr.gov.cn/cms_files/filemanager/1647978232/attach/20233/P020220424509779288201.docx)

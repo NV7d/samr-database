@@ -1,0 +1,21 @@
+贵州省市场监督管理局于2019年4月对贵州省黔西南州兴义市及义龙新区驾驶培训行业涉嫌垄断协议行为进行立案调查。2019年12月31日，贵州省市场监督管理局对本案17家当事人作出行政处罚决定，现予公告。
+ 附件：贵州省市场监督管理局行政处罚决定书（黔市监处罚〔2019〕26号-42号）
+2020年3月9日
+附件下载
+[黔市监处罚〔2019〕26号.PDF](https://www.samr.gov.cn/cms_files/filemanager/1647978232/attach/20233/P020220424509695669792.pdf)
+[黔市监处罚〔2019〕27号.PDF](https://www.samr.gov.cn/cms_files/filemanager/1647978232/attach/20233/P020220424509695759101.pdf)
+[黔市监处罚〔2019〕28号.PDF](https://www.samr.gov.cn/cms_files/filemanager/1647978232/attach/20233/P020220424509695834208.pdf)
+[黔市监处罚〔2019〕29号.PDF](https://www.samr.gov.cn/cms_files/filemanager/1647978232/attach/20233/P020220424509695923222.pdf)
+[黔市监处罚〔2019〕30号.PDF](https://www.samr.gov.cn/cms_files/filemanager/1647978232/attach/20233/P020220424509696015089.pdf)
+[黔市监处罚〔2019〕31号.PDF](https://www.samr.gov.cn/cms_files/filemanager/1647978232/attach/20233/P020220424509696109636.pdf)
+[黔市监处罚〔2019〕32号.PDF](https://www.samr.gov.cn/cms_files/filemanager/1647978232/attach/20233/P020220424509696185868.pdf)
+[黔市监处罚〔2019〕33号.PDF](https://www.samr.gov.cn/cms_files/filemanager/1647978232/attach/20233/P020220424509696279241.pdf)
+[黔市监处罚〔2019〕34号.PDF](https://www.samr.gov.cn/cms_files/filemanager/1647978232/attach/20233/P020220424509696358172.pdf)
+[黔市监处罚〔2019〕35号.PDF](https://www.samr.gov.cn/cms_files/filemanager/1647978232/attach/20233/P020220424509696441303.pdf)
+[黔市监处罚〔2019〕36号.PDF](https://www.samr.gov.cn/cms_files/filemanager/1647978232/attach/20233/P020220424509696535949.pdf)
+[黔市监处罚〔2019〕37号.PDF](https://www.samr.gov.cn/cms_files/filemanager/1647978232/attach/20233/P020220424509696625405.pdf)
+[黔市监处罚〔2019〕38号.PDF](https://www.samr.gov.cn/cms_files/filemanager/1647978232/attach/20233/P020220424509696714178.pdf)
+[黔市监处罚〔2019〕39号.PDF](https://www.samr.gov.cn/cms_files/filemanager/1647978232/attach/20233/P020220424509696807259.pdf)
+[黔市监处罚〔2019〕40号.PDF](https://www.samr.gov.cn/cms_files/filemanager/1647978232/attach/20233/P020220424509696893724.pdf)
+[黔市监处罚〔2019〕41号.PDF](https://www.samr.gov.cn/cms_files/filemanager/1647978232/attach/20233/P020220424509696989170.pdf)
+[黔市监处罚〔2019〕42号.PDF](https://www.samr.gov.cn/cms_files/filemanager/1647978232/attach/20233/P020220424509697075162.pdf)

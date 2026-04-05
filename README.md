@@ -6,6 +6,7 @@ Structured dataset of China's Anti-Monopoly Merger Control public notices, with 
 
 - 主脚本：`samr_publicity_downloader_unified.py`
 - MOFCOM `ztxx` 独立脚本：`samr_publicity_downloader_v4_mofcom_ztxx.py`
+- SAMR 行政执法三栏目独立脚本：`samr_publicity_downloader_v5_samr_enforcement.py`
 - 可选修复脚本（去掉历史 `NOCASE_` 前缀）：`tools/legacy/samr_publicity_fix_nocase_prefix.py`
 
 ## 0. 快速开始（推荐）
@@ -36,6 +37,34 @@ python samr_publicity_downloader_unified.py --source v1 --out-dir ./ --max-pages
 ```bash
 python3 samr_publicity_downloader_v4_mofcom_ztxx.py --out-dir ./ --dry-run
 python3 samr_publicity_downloader_v4_mofcom_ztxx.py --out-dir ./ --start-page 1 --end-page 0
+```
+
+### SAMR 三栏目行政执法公告（正文+附件，独立目录）
+
+```bash
+# 首次先探测
+python3 samr_publicity_downloader_v5_samr_enforcement.py --out-dir ./ --dry-run
+
+# 全量抓取（xzcf + ftj + xzjj）
+python3 samr_publicity_downloader_v5_samr_enforcement.py --out-dir ./ --categories all --start-page 1 --end-page 0
+
+# 后续增量更新（同一命令重复执行）
+python3 samr_publicity_downloader_v5_samr_enforcement.py --out-dir ./ --categories all
+```
+
+参数说明（v5）：
+
+- `--categories all|xzcf,ftj,xzjj`：抓取栏目，默认 `all`
+- `--start-page`：起始页，默认 `1`
+- `--end-page`：结束页，默认 `0`（自动到末页）
+- `--dataset-subdir`：子目录名，默认 `samr_enforcement_cases`
+- `--dry-run`：仅扫描不下载
+- `--timeout --retry --sleep-ms --cookie --user-agent`：网络与风控参数
+
+Windows 示例：
+
+```powershell
+py .\\samr_publicity_downloader_v5_samr_enforcement.py --out-dir .\\ --categories all
 ```
 
 ## 1. 环境要求
@@ -71,6 +100,13 @@ MOFCOM `ztxx` 独立脚本会写入单独子目录（与简易公示表数据分
 - `mofcom_penalty_notices/manifest.jsonl`
 - `mofcom_penalty_notices/manifest.csv`
 - `mofcom_penalty_notices/run_report.json`
+
+SAMR 三栏目行政执法独立脚本会写入：
+
+- `samr_enforcement_cases/files/{category}/{YYYY}/{MM}/{article_id}_{title}/`
+- `samr_enforcement_cases/manifest.jsonl`
+- `samr_enforcement_cases/manifest.csv`
+- `samr_enforcement_cases/run_report.json`
 
 ## 3. 统一脚本参数
 
