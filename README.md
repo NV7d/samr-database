@@ -48,6 +48,12 @@ py --version
 python3 tools/downloaders/samr_publicity_downloader_unified.py --help
 ```
 
+说明（新规则）：
+
+- 默认会把数据写到：`<out-dir>/samr_simple_case_notices/`
+- 即使你传 `--out-dir ./`，也不会再在仓库根目录生成 `files/manifest.jsonl`
+- 只有加 `--legacy-flat-out-dir` 才使用旧的平铺输出
+
 常用命令：
 
 ```bash
@@ -59,6 +65,9 @@ python3 tools/downloaders/samr_publicity_downloader_unified.py --source v2 --out
 
 # v3（MOFCOM 旧站）
 python3 tools/downloaders/samr_publicity_downloader_unified.py --source v3 --out-dir ./ --start-page 1 --end-page 0 --cutoff-date 2022-08-31
+
+# 如果你想显式指定到数据目录，也可以：
+python3 tools/downloaders/samr_publicity_downloader_unified.py --source v1 --out-dir ./samr_simple_case_notices --max-pages 0
 ```
 
 Windows：

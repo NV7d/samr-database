@@ -56,12 +56,14 @@ V3_LIST_ROOT = f"{V3_BASE}/article/jyzjzjyajgs/"
 class Config:
     source: str
     out_dir: Path
+    data_dir: Path
     timeout: float
     retry: int
     sleep_ms: int
     dry_run: bool
     user_agent: str
     cookie: str
+    legacy_flat_out_dir: bool
     # v1
     page_size: int
     max_pages: int
@@ -776,7 +778,12 @@ def run_v3(cfg: Config, existing: Dict[str, Dict[str, Any]], files_root: Path, r
 def parse_args() -> Config:
     p = argparse.ArgumentParser(description="Unified downloader for v1/v2/v3 sources.")
     p.add_argument("--source", choices=["v1", "v2", "v3"], required=True)
-    p.add_argument("--out-dir", default="~/Downloads/samr_publicity")
+    p.add_argument("--out-dir", default="~/Downloads/samr_publicity", help="Project root or dataset directory")
+    p.add_argument(
+        "--legacy-flat-out-dir",
+        action="store_true",
+        help="Write directly into --out-dir (legacy behavior).",
+    )
     p.add_argument("--timeout", type=float, default=20.0)
     p.add_argument("--retry", type=int, default=3)
     p.add_argument("--sleep-ms", type=int, default=100)
@@ -798,15 +805,25 @@ def parse_args() -> Config:
     if a.source == "v3" and "--start-page" not in sys.argv:
         start_page = 1
 
+    out_dir = Path(os.path.expanduser(a.out_dir)).resolve()
+    if a.legacy_flat_out_dir:
+        data_dir = out_dir
+    elif out_dir.name == "samr_simple_case_notices":
+        data_dir = out_dir
+    else:
+        data_dir = out_dir / "samr_simple_case_notices"
+
     return Config(
         source=a.source,
-        out_dir=Path(os.path.expanduser(a.out_dir)).resolve(),
+        out_dir=out_dir,
+        data_dir=data_dir,
         timeout=max(1.0, a.timeout),
         retry=max(1, a.retry),
         sleep_ms=max(0, a.sleep_ms),
         dry_run=a.dry_run,
         user_agent=a.user_agent,
         cookie=(a.cookie or "").strip(),
+        legacy_flat_out_dir=a.legacy_flat_out_dir,
         page_size=max(1, a.page_size),
         max_pages=max(0, a.max_pages),
         start_page=max(1, start_page),
@@ -817,13 +834,13 @@ def parse_args() -> Config:
 
 def main() -> int:
     cfg = parse_args()
-    cfg.out_dir.mkdir(parents=True, exist_ok=True)
-    files_root = cfg.out_dir / "files"
+    cfg.data_dir.mkdir(parents=True, exist_ok=True)
+    files_root = cfg.data_dir / "files"
     files_root.mkdir(parents=True, exist_ok=True)
 
-    manifest_jsonl = cfg.out_dir / "manifest.jsonl"
-    manifest_csv = cfg.out_dir / "manifest.csv"
-    run_report = cfg.out_dir / "run_report.json"
+    manifest_jsonl = cfg.data_dir / "manifest.jsonl"
+    manifest_csv = cfg.data_dir / "manifest.csv"
+    run_report = cfg.data_dir / "run_report.json"
 
     existing = load_manifest_jsonl(manifest_jsonl)
     report: Dict[str, Any] = {
@@ -831,6 +848,7 @@ def main() -> int:
         "source": cfg.source,
         "dry_run": cfg.dry_run,
         "out_dir": str(cfg.out_dir),
+        "data_dir": str(cfg.data_dir),
         "timeout": cfg.timeout,
         "retry": cfg.retry,
         "sleep_ms": cfg.sleep_ms,
