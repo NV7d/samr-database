@@ -405,11 +405,10 @@ def run_v1(cfg: Config, existing: Dict[str, Dict[str, Any]], files_root: Path, r
                 continue
 
             y, m = choose_year_month(str(rec.get("receiveTime") or ""), str(rec.get("createTime") or ""))
-            target_dir = files_root / y / m
-            target_dir.mkdir(parents=True, exist_ok=True)
-
             case_no = (rec.get("caseNo") or "").strip()
             case_name = rec.get("caseName") or "untitled"
+            target_dir = files_root / y / m / short_name(f"{cid}_{case_name}", max_len=64)
+            target_dir.mkdir(parents=True, exist_ok=True)
             prefix = case_no or cid
             name = short_name(f"{prefix}_{case_name}", max_len=72) + ext
             fpath = target_dir / name

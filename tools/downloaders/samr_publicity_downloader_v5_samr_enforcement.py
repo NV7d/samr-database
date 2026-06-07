@@ -576,14 +576,16 @@ def file_name_from_attachment(attachment_url: str, attachment_text: str, idx: in
     qname = strip_html(qname)
     path_name = unquote(Path(parsed.path).name)
     text_name = strip_html(attachment_text)
+    path_ext = Path(parsed.path).suffix.lower()
 
     base = qname or path_name or text_name or f"attachment_{idx:03d}"
+    base_ext = Path(base).suffix.lower()
+    if base_ext and base_ext not in ATTACH_EXTS:
+        base = Path(base).stem
     base = safe_name(base)
 
-    if not Path(base).suffix:
-        ext = Path(path_name).suffix.lower()
-        if ext and ext in ATTACH_EXTS:
-            base = f"{base}{ext}"
+    if path_ext and path_ext in ATTACH_EXTS and Path(base).suffix.lower() != path_ext:
+        base = f"{Path(base).stem}{path_ext}"
     return base
 
 

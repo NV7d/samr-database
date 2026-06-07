@@ -108,6 +108,43 @@ def unique_target(path: Path) -> Path:
         i += 1
 
 
+def resolve_record_path(value: str) -> Path:
+    path = Path(value)
+    return path if path.is_absolute() else ROOT / path
+
+
+def rel_for_matching(value: str) -> str:
+    path = resolve_record_path(value)
+    try:
+        return str(path.relative_to(ROOT))
+    except ValueError:
+        return value
+
+
+def format_record_path(original: str, new_abs: Path) -> str:
+    return str(new_abs) if Path(original).is_absolute() else str(new_abs.relative_to(ROOT))
+
+
+def find_existing_moved_file(old_rel: str) -> Path | None:
+    parts = Path(old_rel).parts
+    if not parts:
+        return None
+
+    if old_rel.startswith("samr_simple_case_notices/files/") and len(parts) >= 5:
+        base = ROOT / Path(*parts[:4])
+    elif old_rel.startswith("mofcom_penalty_notices/files/") and len(parts) >= 5:
+        base = ROOT / Path(*parts[:4])
+    elif old_rel.startswith("samr_enforcement_cases/files/") and len(parts) >= 6:
+        base = ROOT / Path(*parts[:5])
+    else:
+        return None
+
+    if not base.exists():
+        return None
+    matches = [p for p in base.rglob(parts[-1]) if p.is_file()]
+    return matches[0] if len(matches) == 1 else None
+
+
 def load_jsonl(path: Path) -> List[Dict[str, str]]:
     rows: List[Dict[str, str]] = []
     if not path.exists():
@@ -225,19 +262,29 @@ def main() -> None:
             old_rel = str(rec.get("file_path") or "")
             if not old_rel:
                 continue
-            if old_rel in path_map:
-                new_rel = path_map[old_rel]
-                rec["file_path"] = new_rel
-                rec["file_name"] = Path(new_rel).name
+            old_match = rel_for_matching(old_rel)
+            if old_rel in path_map or old_match in path_map:
+                new_value = path_map.get(old_rel) or path_map[old_match]
+                rec["file_path"] = new_value
+                rec["file_name"] = Path(new_value).name
                 changed_rows += 1
                 continue
 
-            old_abs = ROOT / old_rel
+            old_abs = resolve_record_path(old_rel)
             if not old_abs.exists():
+                moved_abs = find_existing_moved_file(old_match)
+                if moved_abs:
+                    new_value = format_record_path(old_rel, moved_abs)
+                    path_map[old_rel] = new_value
+                    path_map[old_match] = new_value
+                    rec["file_path"] = new_value
+                    rec["file_name"] = moved_abs.name
+                    changed_rows += 1
+                    continue
                 missing += 1
                 continue
 
-            new_rel = build_target_relpath(rec, old_rel)
+            new_rel = build_target_relpath(rec, old_match)
             new_abs = ROOT / new_rel
             if new_abs == old_abs:
                 continue
@@ -245,9 +292,10 @@ def main() -> None:
             new_abs = unique_target(new_abs)
             old_abs.rename(new_abs)
 
-            new_rel = str(new_abs.relative_to(ROOT))
-            path_map[old_rel] = new_rel
-            rec["file_path"] = new_rel
+            new_value = format_record_path(old_rel, new_abs)
+            path_map[old_rel] = new_value
+            path_map[old_match] = new_value
+            rec["file_path"] = new_value
             rec["file_name"] = new_abs.name
             changed_rows += 1
             moved += 1
