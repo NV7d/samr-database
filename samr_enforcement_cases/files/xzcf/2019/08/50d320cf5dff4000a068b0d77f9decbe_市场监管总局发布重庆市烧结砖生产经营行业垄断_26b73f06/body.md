@@ -1,0 +1,13 @@
+重庆市市场监督管理局于2018年7月对云阳县烧结砖生产经营行业涉嫌垄断协议行为进行立案调查，于2019年8月9日对9家涉案当事人作出行政处罚决定，现予公告。
+附件：重庆市市场监督管理局行政处罚决定书
+（渝市监经处字〔2019〕第5号至第13号）
+附件下载
+[6.pdf](https://www.samr.gov.cn/cms_files/filemanager/1647978232/attach/20233/P020220424509664359887.pdf)
+[7.pdf](https://www.samr.gov.cn/cms_files/filemanager/1647978232/attach/20233/P020220424509664509202.pdf)
+[8.pdf](https://www.samr.gov.cn/cms_files/filemanager/1647978232/attach/20233/P020220424509664656795.pdf)
+[9.pdf](https://www.samr.gov.cn/cms_files/filemanager/1647978232/attach/20233/P020220424509664800755.pdf)
+[10.pdf](https://www.samr.gov.cn/cms_files/filemanager/1647978232/attach/20233/P020220424509664958662.pdf)
+[11.pdf](https://www.samr.gov.cn/cms_files/filemanager/1647978232/attach/20233/P020220424509665099710.pdf)
+[12.pdf](https://www.samr.gov.cn/cms_files/filemanager/1647978232/attach/20233/P020220424509665245318.pdf)
+[13.pdf](https://www.samr.gov.cn/cms_files/filemanager/1647978232/attach/20233/P020220424509665405974.pdf)
+[5.pdf](https://www.samr.gov.cn/cms_files/filemanager/1647978232/attach/20233/P020220424509665544196.pdf)

@@ -1,0 +1,14 @@
+竞争执法公告
+2014年第20号
+经国家工商行政管理总局授权，浙江省工商行政管理局于2011年8月对上虞市商品混凝土协会及会员单位涉嫌垄断协议行为进行立案调查，于2014年9月对涉案当事人下达了行政处罚决定，现予公告。
+二○一四年十二月一日
+附件下载
+[上虞市混凝土协会](https://www.samr.gov.cn/cms_files/filemanager/1647978232/attach/20233/P020220424510082177373.doc)
+[上虞市普银水泥制品有限公司](https://www.samr.gov.cn/cms_files/filemanager/1647978232/attach/20233/P020220424510082259265.doc)
+[上虞市万峰商品混凝土有限公司](https://www.samr.gov.cn/cms_files/filemanager/1647978232/attach/20233/P020220424510082333005.doc)
+[上虞市先锋混凝土有限公司](https://www.samr.gov.cn/cms_files/filemanager/1647978232/attach/20233/P020220424510082408012.doc)
+[上虞市永固混凝土有限公司](https://www.samr.gov.cn/cms_files/filemanager/1647978232/attach/20233/P020220424510082475163.doc)
+[上虞永磊建材有限公司](https://www.samr.gov.cn/cms_files/filemanager/1647978232/attach/20233/P020220424510082558417.doc)
+[绍兴恒大管桩有限公司](https://www.samr.gov.cn/cms_files/filemanager/1647978232/attach/20233/P020220424510082629600.doc)
+[绍兴阳力混凝土有限公司](https://www.samr.gov.cn/cms_files/filemanager/1647978232/attach/20233/P020220424510082706125.doc)
+[浙江九鼎管桩有限公司](https://www.samr.gov.cn/cms_files/filemanager/1647978232/attach/20233/P020220424510082777523.doc)

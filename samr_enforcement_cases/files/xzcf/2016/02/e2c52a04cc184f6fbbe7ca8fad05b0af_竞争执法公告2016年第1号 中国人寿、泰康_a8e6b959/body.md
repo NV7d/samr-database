@@ -1,0 +1,23 @@
+P.MsoNormal { FONT-SIZE: 10.5pt; FONT-FAMILY: Calibri; TEXT-ALIGN: justify; MARGIN: 0pt; TEXT-JUSTIFY: inter-ideograph } SPAN.msoIns { TEXT-DECORATION: underline; COLOR: blue; text-underline: single } SPAN.msoDel { TEXT-DECORATION: line-through; COLOR: red }
+竞争执法公告
+2016年第1号
+ 经国家工商行政管理总局授权，江西省工商行政管理局于2013年6月对中国人寿、泰康人寿等保险公司江西分公司涉嫌达成、实施划分销售市场的垄断协议案件行为进行立案调查，于2015年12月28日对涉案当事人作出行政处罚决定，现予公告。
+ 二〇一六年二月三日
+附件下载
+[1.中国人寿保险股份有限公司江西省分公司行政处罚决定书](https://www.samr.gov.cn/cms_files/filemanager/1647978232/attach/20233/P020220424510109088957.doc)
+[2.泰康人寿保险股份有限公司江西分公司行政处罚决定书](https://www.samr.gov.cn/cms_files/filemanager/1647978232/attach/20233/P020220424510109158475.doc)
+[3.中国人民财产保险股份有限公司江西省分公司行政处罚决定书](https://www.samr.gov.cn/cms_files/filemanager/1647978232/attach/20233/P020220424510109222250.doc)
+[4.中国平安财产保险股份有限公司江西分公司行政处罚决定书](https://www.samr.gov.cn/cms_files/filemanager/1647978232/attach/20233/P020220424510109295926.doc)
+[5.太平养老保险股份有限公司江西分公司行政处罚决定书](https://www.samr.gov.cn/cms_files/filemanager/1647978232/attach/20233/P020220424510109376633.doc)
+[6.平安养老保险股份有限公司江西分公司行政处罚决定书](https://www.samr.gov.cn/cms_files/filemanager/1647978232/attach/20233/P020220424510109446852.doc)
+[7.中国太平洋财产保险股份有限公司江西分公司行政处罚决定书](https://www.samr.gov.cn/cms_files/filemanager/1647978232/attach/20233/P020220424510109522596.doc)
+[8.中国人民人寿保险股份有限公司江西省分公司行政处罚决定书](https://www.samr.gov.cn/cms_files/filemanager/1647978232/attach/20233/P020220424510109599549.doc)
+[9.中国大地财产保险股份有限公司江西分公司行政处罚决定书](https://www.samr.gov.cn/cms_files/filemanager/1647978232/attach/20233/P020220424510109660319.doc)
+[10.新华人寿保险股份有限公司江西分公司行政处罚决定书](https://www.samr.gov.cn/cms_files/filemanager/1647978232/attach/20233/P020220424510109736700.doc)
+[11.阳光财产保险股份有限公司江西省分公司行政处罚决定书](https://www.samr.gov.cn/cms_files/filemanager/1647978232/attach/20233/P020220424510109819046.doc)
+[12.民生人寿保险股份有限公司江西分公司行政处罚决定书](https://www.samr.gov.cn/cms_files/filemanager/1647978232/attach/20233/P020220424510109884325.doc)
+[13.天安财产保险股份有限公司江西省分公司行政处罚决定书](https://www.samr.gov.cn/cms_files/filemanager/1647978232/attach/20233/P020220424510109957380.doc)
+[14.信泰人寿保险股份有限公司江西分公司行政处罚决定书](https://www.samr.gov.cn/cms_files/filemanager/1647978232/attach/20233/P020220424510110029217.doc)
+[15.富德生命人寿保险股份有限公司江西分公司行政处罚决定书](https://www.samr.gov.cn/cms_files/filemanager/1647978232/attach/20233/P020220424510110097878.doc)
+[16.中银保险有限公司江西分公司行政处罚决定书](https://www.samr.gov.cn/cms_files/filemanager/1647978232/attach/20233/P020220424510110175199.doc)
+[17.中国人民健康保险股份有限公司江西分公司行政处罚决定书](https://www.samr.gov.cn/cms_files/filemanager/1647978232/attach/20233/P020220424510110242523.doc)
