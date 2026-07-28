@@ -137,6 +137,7 @@ python3 tools/shorten_paths_for_windows.py
 
 - 批量缩短目录名和文件名；
 - 同步更新各数据集 `manifest.jsonl / manifest.csv`；
+- 将清单路径统一为跨平台相对路径，并重建根目录总索引 `manifest.csv`；
 - 清理空目录。
 
 ## v1 历史目录标准化迁移

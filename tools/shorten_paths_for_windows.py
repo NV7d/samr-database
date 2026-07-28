@@ -14,6 +14,7 @@ import json
 import re
 from pathlib import Path
 from typing import Dict, List, Tuple
+from urllib.parse import unquote, urlparse
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -39,6 +40,18 @@ def find_index_from_name(name: str, default_idx: int = 1) -> int:
     if m:
         return int(m.group(1))
     return default_idx
+
+
+def stable_attachment_name(rec: Dict[str, str], fallback_name: str, prefix: str, max_len: int = 72) -> str:
+    attachment_url = str(rec.get("attachment_url") or "")
+    url_name = unquote(Path(urlparse(attachment_url).path).name)
+    source_name = safe_name(url_name or fallback_name)
+    source_path = Path(source_name)
+    ext = source_path.suffix.lower()
+    if not re.fullmatch(r"\.[a-z0-9]{1,8}", ext):
+        ext = ""
+    stem = source_path.stem if ext else source_name
+    return short_name(f"{prefix}_{stem}", max(16, max_len - len(ext))) + ext
 
 
 def build_target_relpath(rec: Dict[str, str], old_rel: str) -> str:
@@ -73,9 +86,7 @@ def build_target_relpath(rec: Dict[str, str], old_rel: str) -> str:
             new_file = f"body{body_ext}"
         else:
             idx = find_index_from_name(fname, 1)
-            new_file = short_name(f"{rid}_{idx:03d}_{fname}", 72)
-            if Path(new_file).suffix.lower() != ext:
-                new_file = f"{new_file}{ext}"
+            new_file = stable_attachment_name(rec, fname, f"{rid}_{idx:03d}")
         return str(Path("mofcom_penalty_notices/files") / y / m / article_dir / new_file)
 
     if old_rel.startswith("samr_enforcement_cases/files/"):
@@ -89,9 +100,7 @@ def build_target_relpath(rec: Dict[str, str], old_rel: str) -> str:
             new_file = f"body{body_ext}"
         else:
             idx = find_index_from_name(fname, 1)
-            new_file = short_name(f"{category}_{rid}_{idx:03d}_{fname}", 72)
-            if Path(new_file).suffix.lower() != ext:
-                new_file = f"{new_file}{ext}"
+            new_file = stable_attachment_name(rec, fname, f"{category}_{rid}_{idx:03d}")
         return str(Path("samr_enforcement_cases/files") / category / y / m / article_dir / new_file)
 
     return old_rel
@@ -108,6 +117,17 @@ def unique_target(path: Path) -> Path:
         i += 1
 
 
+def stable_collision_target(path: Path, rec: Dict[str, str], old_abs: Path) -> Path:
+    if not path.exists() or path == old_abs:
+        return path
+    key = str(rec.get("dedup_key") or rec.get("attachment_url") or path.name)
+    digest = hashlib.sha1(key.encode("utf-8")).hexdigest()[:8]
+    candidate = path.with_name(f"{path.stem}_{digest}{path.suffix}")
+    if not candidate.exists() or candidate == old_abs:
+        return candidate
+    return unique_target(candidate)
+
+
 def resolve_record_path(value: str) -> Path:
     path = Path(value)
     return path if path.is_absolute() else ROOT / path
@@ -122,7 +142,10 @@ def rel_for_matching(value: str) -> str:
 
 
 def format_record_path(original: str, new_abs: Path) -> str:
-    return str(new_abs) if Path(original).is_absolute() else str(new_abs.relative_to(ROOT))
+    try:
+        return str(new_abs.relative_to(ROOT))
+    except ValueError:
+        return str(new_abs)
 
 
 def find_existing_moved_file(old_rel: str) -> Path | None:
@@ -212,6 +235,29 @@ def write_jsonl(path: Path, rows: List[Dict[str, str]]) -> None:
             f.write(json.dumps(row, ensure_ascii=False) + "\n")
 
 
+def sync_jsonl_paths(path: Path, path_map: Dict[str, str]) -> int:
+    rows = load_jsonl(path)
+    changed = 0
+    for rec in rows:
+        old = str(rec.get("file_path") or "")
+        if not old:
+            continue
+        mapped = path_map.get(old) or path_map.get(rel_for_matching(old))
+        if not mapped:
+            continue
+        mapped_abs = Path(mapped) if Path(mapped).is_absolute() else ROOT / mapped
+        new = format_record_path(old, mapped_abs)
+        if new == old:
+            continue
+        rec["file_path"] = new
+        rec["file_name"] = mapped_abs.name
+        rec["file_ext"] = mapped_abs.suffix.lower()
+        changed += 1
+    if changed:
+        write_jsonl(path, rows)
+    return changed
+
+
 def update_csv(path: Path, path_map: Dict[str, str]) -> int:
     if not path.exists():
         return 0
@@ -235,6 +281,28 @@ def update_csv(path: Path, path_map: Dict[str, str]) -> int:
     return changed
 
 
+def rebuild_root_manifest(jsonl_paths: List[Path]) -> int:
+    rows: List[Dict[str, str]] = []
+    for path in jsonl_paths:
+        dataset = path.parent.name
+        for rec in load_jsonl(path):
+            rows.append({"dataset": dataset, **rec})
+
+    preferred = [
+        "dataset", "dedup_key", "source", "category", "category_label", "record_type",
+        "id", "fileId", "caseNo", "caseName", "empName", "list_page", "list_date",
+        "pub_date", "receiveTime", "createTime", "detail_url", "attachment_url",
+        "source_page", "source_total_count_snapshot", "saved_at", "file_name",
+        "file_ext", "file_size", "sha256", "file_path",
+    ]
+    fields = preferred + sorted({key for row in rows for key in row if key not in preferred})
+    with (ROOT / "manifest.csv").open("w", encoding="utf-8-sig", newline="") as f:
+        writer = csv.DictWriter(f, fieldnames=fields, extrasaction="ignore")
+        writer.writeheader()
+        writer.writerows(rows)
+    return len(rows)
+
+
 def cleanup_empty_dirs(root: Path) -> None:
     for path in sorted([p for p in root.rglob("*") if p.is_dir()], key=lambda x: len(x.parts), reverse=True):
         try:
@@ -248,7 +316,6 @@ def main() -> None:
         ROOT / "samr_simple_case_notices/manifest.jsonl",
         ROOT / "mofcom_penalty_notices/manifest.jsonl",
         ROOT / "samr_enforcement_cases/manifest.jsonl",
-        ROOT / "indexes/root_catalog/manifest.jsonl",
     ]
 
     path_map: Dict[str, str] = {}
@@ -287,9 +354,27 @@ def main() -> None:
             new_rel = build_target_relpath(rec, old_match)
             new_abs = ROOT / new_rel
             if new_abs == old_abs:
+                new_value = format_record_path(old_rel, new_abs)
+                if new_value != old_rel:
+                    path_map[old_rel] = new_value
+                    path_map[old_match] = new_value
+                    rec["file_path"] = new_value
+                    rec["file_name"] = new_abs.name
+                    rec["file_ext"] = new_abs.suffix.lower()
+                    changed_rows += 1
                 continue
             new_abs.parent.mkdir(parents=True, exist_ok=True)
-            new_abs = unique_target(new_abs)
+            new_abs = stable_collision_target(new_abs, rec, old_abs)
+            if new_abs == old_abs:
+                new_value = format_record_path(old_rel, new_abs)
+                if new_value != old_rel:
+                    path_map[old_rel] = new_value
+                    path_map[old_match] = new_value
+                    rec["file_path"] = new_value
+                    rec["file_name"] = new_abs.name
+                    rec["file_ext"] = new_abs.suffix.lower()
+                    changed_rows += 1
+                continue
             old_abs.rename(new_abs)
 
             new_value = format_record_path(old_rel, new_abs)
@@ -306,9 +391,12 @@ def main() -> None:
     swept = sweep_long_files(path_map)
     if swept:
         print(f"[sweep] extra_moved={swept}")
+        for jp in jsonl_paths:
+            synced = sync_jsonl_paths(jp, path_map)
+            if synced:
+                print(f"[jsonl-sync] {jp.relative_to(ROOT)} changed={synced}")
 
     csv_paths = [
-        ROOT / "manifest.csv",
         ROOT / "samr_simple_case_notices/manifest.csv",
         ROOT / "mofcom_penalty_notices/manifest.csv",
         ROOT / "samr_enforcement_cases/manifest.csv",
@@ -318,6 +406,9 @@ def main() -> None:
         c = update_csv(cp, path_map)
         csv_changed += c
         print(f"[csv] {cp.relative_to(ROOT)} changed={c}")
+
+    catalog_rows = rebuild_root_manifest(jsonl_paths)
+    print(f"[catalog] manifest.csv rows={catalog_rows}")
 
     cleanup_empty_dirs(ROOT / "samr_simple_case_notices/files")
     cleanup_empty_dirs(ROOT / "mofcom_penalty_notices/files")
