@@ -19,6 +19,7 @@ samr_publicity/
 │   │   └── samr_publicity_downloader_v5_samr_enforcement.py
 │   ├── migrate_v1_to_standard_layout.py
 │   └── legacy/
+├── dashboard/                         # 案例级静态可视化页面与快照
 └── indexes/root_catalog/              # 历史根清单归档
 ```
 
@@ -118,6 +119,22 @@ py .\tools\downloaders\samr_publicity_downloader_v5_samr_enforcement.py --out-di
 
 - 单次运行报告（扫描量、成功、失败、跳过原因）。
 - 每个数据子目录各自维护。
+
+## 案例级可视化 dashboard
+
+从根目录清单生成可视化快照：
+
+```bash
+python3 tools/build_visualization_snapshot.py --manifest manifest.csv --output dashboard/data/samr-viz-data.js
+```
+
+Windows：
+
+```powershell
+py .\tools\build_visualization_snapshot.py --manifest manifest.csv --output dashboard\data\samr-viz-data.js
+```
+
+然后直接打开 `dashboard/index.html`。页面按 `dataset + id` 将正文和附件归并为案例，提供年度趋势、交易类型、执法类别、参与方共现、字段质量和案例文件钻取。
 
 ## 增量机制
 
